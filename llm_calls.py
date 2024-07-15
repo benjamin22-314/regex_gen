@@ -60,7 +60,7 @@ def llm_generate_unit_tests(
     - Escape sequences
     8. Do not write the actual function implementation or code to run the tests.
     9. Write the name of the function you are testing as a comment at the top of the code block (do not write a place holder function).
-    10. Generate at least 10 diverse tests to ensure comprehensive coverage.
+    10. Generate at least 10-15 diverse tests to ensure comprehensive coverage.
 
     Provide your response as a Python code block containing only the unit tests. \
     Ensure that the tests are varied and cover a wide range of scenarios to thoroughly validate the regex function.
