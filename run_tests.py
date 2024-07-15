@@ -9,20 +9,30 @@ class FindFirstFailingUnitTestFunctionMessage:
         self.output = output
 
     def print_message_details(self):
-        print("all_tests_pass: " + str(self.all_tests_pass))
+        print("\nall_tests_pass: " + str(self.all_tests_pass))
         print("unit_test_name: " + self.unit_test_name)
-        print("output: " + self.output)
+        print("output: " + self.output + "\n")
 
 
 def find_first_failing_unit_test(
     function_code_with_unit_tests: FunctionCodeWithUnitTests,
 ) -> FindFirstFailingUnitTestFunctionMessage:
 
-    python_repl = PythonREPLTool()
-
     for unit_test_name in function_code_with_unit_tests.unit_tests:
         # Example code to execute
-        code_to_run = f"""
+        message = run_unit_test(
+            function_code_with_unit_tests=function_code_with_unit_tests,
+            unit_test_name=unit_test_name,
+        )
+        if message.all_tests_pass == False:
+            return message
+    return message
+
+
+def run_unit_test(
+    function_code_with_unit_tests: FunctionCodeWithUnitTests, unit_test_name: str
+) -> FindFirstFailingUnitTestFunctionMessage:
+    code_to_run = f"""
 
 {function_code_with_unit_tests.unit_test_imports}
 
@@ -41,16 +51,15 @@ except Exception as e:
 print(message)
         """
 
-        # Execute the code
-        # print(code_to_run)
-        output = python_repl.run(code_to_run)[:-1]
-        if not output.endswith("test passed"):
-            return FindFirstFailingUnitTestFunctionMessage(
-                all_tests_pass=False,
-                unit_test_name=unit_test_name,
-                output=output,
-            )
-
+    # Execute the code
+    # print(code_to_run)
+    output = PythonREPLTool().run(code_to_run)[:-1]
+    if not output.endswith("test passed"):
+        return FindFirstFailingUnitTestFunctionMessage(
+            all_tests_pass=False,
+            unit_test_name=unit_test_name,
+            output=output,
+        )
     return FindFirstFailingUnitTestFunctionMessage(
         all_tests_pass=True,
         unit_test_name="Na",
