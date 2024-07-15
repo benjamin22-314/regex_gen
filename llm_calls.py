@@ -43,7 +43,6 @@ def llm_generate_unit_tests(
     - Unicode characters (if applicable)
     - Case sensitivity (if applicable)
     - Multiline inputs (if applicable)
-    - Overlapping matches
     - Non-matching scenarios
     3. If you need to use a unit test framework, use pytest.
     4. Write individual test functions, not a test class.
@@ -61,7 +60,7 @@ def llm_generate_unit_tests(
     - Escape sequences
     8. Do not write the actual function implementation or code to run the tests.
     9. Write the name of the function you are testing as a comment at the top of the code block (do not write a place holder function).
-    10. Generate at least 15-20 diverse tests to ensure comprehensive coverage.
+    10. Generate at least 10 diverse tests to ensure comprehensive coverage.
 
     Provide your response as a Python code block containing only the unit tests. \
     Ensure that the tests are varied and cover a wide range of scenarios to thoroughly validate the regex function.
