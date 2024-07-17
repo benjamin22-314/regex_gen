@@ -81,7 +81,9 @@ def llm_generate_unit_tests(
 
 
 def llm_generate_function_from_unit_tests(
-    llm: langchain_openai.chat_models.base.ChatOpenAI, unit_test_code_as_string: str
+    llm: langchain_openai.chat_models.base.ChatOpenAI,
+    unit_test_code_as_string: str,
+    query:  str
 ) -> str:
     """
     Generate a function that will pass the given unit tests.
@@ -90,7 +92,7 @@ def llm_generate_function_from_unit_tests(
     function_writer_system_prompt_string = """
     You are a Python code generation assistant. Your task is to create a Python function that satisfies all the provided pytest unit tests. Follow these guidelines:
 
-    1. Analyze the given unit tests carefully to understand the function's required behavior.
+    1. Consider the function description and the unit tests carefully to understand the function's required behavior.
     2. Write a single Python function that passes all the provided tests.
     3. Use type hints for parameters and return values.
     4. Include a clear and concise docstring explaining the function's purpose and parameters.
@@ -107,7 +109,7 @@ def llm_generate_function_from_unit_tests(
     )
     function_writer_chain = function_writer_prompt | llm | PythonCodeExtractorParser()
     target_function_code_as_string = function_writer_chain.invoke(
-        {"input": unit_test_code_as_string}
+        {"input": "Function description: " + query + "\n" + unit_test_code_as_string}
     )
     return target_function_code_as_string
 
@@ -130,6 +132,7 @@ def function_and_unit_test_for_bug_finder_template(
 
 def llm_find_bug(
     llm: langchain_openai.chat_models.base.ChatOpenAI,
+    query: str,
     function_code_with_unit_tests: FunctionCodeWithUnitTests,
     first_failing_unit_test_message: FindFirstFailingUnitTestFunctionMessage,
 ) -> Dict[str, str]:
@@ -143,7 +146,7 @@ def llm_find_bug(
     }
     """
 
-    bug_finder_prompt_string = """
+    bug_finder_prompt_string = f"""
     You are an expert code reviewer and debugger. Given a function and its unit test, 
     your task is to analyze both and determine which one is more likely to contain a bug.
 
@@ -161,7 +164,7 @@ def llm_find_bug(
     bug_finder_chain = bug_finder_prompt | llm | BugLocatorOutputParser()
     bug_finder_dict = bug_finder_chain.invoke(
         {
-            "input": function_and_unit_test_for_bug_finder_template(
+            "input": "Function description: " + query + "\n\n" + function_and_unit_test_for_bug_finder_template(
                 function_code_with_unit_tests=function_code_with_unit_tests,
                 first_failing_unit_test_message=first_failing_unit_test_message,
             )
@@ -172,13 +175,17 @@ def llm_find_bug(
 
 def llm_fix_bug(
     llm: langchain_openai.chat_models.base.ChatOpenAI,
+    query: str,
     bug_report_dict: Dict[str, str],
     function_code_with_unit_tests: FunctionCodeWithUnitTests,
     first_failing_unit_test_message: FindFirstFailingUnitTestFunctionMessage,
 ) -> str:
+    """
+    """
+    
     code_fixer_system_prompt_string = f"""
     You are a Python code generation assistant.
-    You will be given a function and a unit test.
+    You will be given a function (including a description of the function) and a unit test.
 
     There is a bug in the {bug_report_dict['Likely Bug Location']}.
 
@@ -195,7 +202,10 @@ def llm_fix_bug(
     )
 
     input = (
-        bug_report_dict["Explanation"]
+        "Function description: "
+        + query
+        + "\n"
+        + bug_report_dict["Explanation"]
         + "\n\nCode\n"
         + function_and_unit_test_for_bug_finder_template(
             function_code_with_unit_tests=function_code_with_unit_tests,
