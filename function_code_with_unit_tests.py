@@ -26,3 +26,6 @@ class FunctionCodeWithUnitTests:
 
     def delete_unit_test_code(self, unit_test_name: str) -> None:
         del self.unit_tests[unit_test_name]
+    
+    def delete_function_changes(self) -> None:
+        del self.function_code[-1]
