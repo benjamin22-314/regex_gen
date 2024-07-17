@@ -152,7 +152,7 @@ def llm_find_bug(
 
     Your response should be in the following format:
     Likely Bug Location: [Function/Unit Test]
-    Explanation: [Your detailed explanation]
+    Explanation: [Your detailed explanation of what went wrong, and how to fix it]
 
     Please do not return any text after your explanation.
     """
