@@ -28,4 +28,4 @@ class FunctionCodeWithUnitTests:
         del self.unit_tests[unit_test_name]
     
     def delete_function_changes(self) -> None:
-        del self.function_code[-1]
+        self.function_code = self.function_code[:-1]
