@@ -18,7 +18,7 @@ def find_first_failing_unit_test(
     function_code_with_unit_tests: FunctionCodeWithUnitTests,
 ) -> FindFirstFailingUnitTestFunctionMessage:
 
-    for unit_test_name in function_code_with_unit_tests.unit_tests:
+    for i, unit_test_name in enumerate(function_code_with_unit_tests.unit_tests):
         # Example code to execute
         message = run_unit_test(
             function_code_with_unit_tests=function_code_with_unit_tests,
@@ -26,7 +26,7 @@ def find_first_failing_unit_test(
         )
         if message.test_pass_status == False:
             return message
-        print(f"unit test {unit_test_name}() is currently passing.")
+        print(f"unit test {unit_test_name}() is currently passing. {i}/{len(function_code_with_unit_tests.unit_tests)} tests pass.")
     return message
 
 
