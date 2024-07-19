@@ -26,7 +26,7 @@ def find_first_failing_unit_test(
         )
         if message.test_pass_status == False:
             return message
-        print(f"unit test {unit_test_name}() is currently passing. {i}/{len(function_code_with_unit_tests.unit_tests)} tests pass.")
+        print(f"unit test {unit_test_name}() is currently passing. {i+1}/{len(function_code_with_unit_tests.unit_tests)} tests pass.")
     return message
 
 
