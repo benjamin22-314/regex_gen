@@ -49,7 +49,7 @@ def llm_generate_unit_tests(
     5. Use descriptive test names that clearly indicate the specific scenario being tested.
     6. Include detailed assertions that thoroughly check expected outcomes.
     7. Each assert statement should have a message with the expected output and the observed output.
-    8. Do not test input longer than 1000 characters.
+    8. Do not test input longer than 200 characters.
     9. For regex functions, consider testing:
     - Pattern matching accuracy
     - Capturing groups
