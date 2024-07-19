@@ -48,7 +48,9 @@ def llm_generate_unit_tests(
     4. Write individual test functions, not a test class.
     5. Use descriptive test names that clearly indicate the specific scenario being tested.
     6. Include detailed assertions that thoroughly check expected outcomes.
-    7. For regex functions, consider testing:
+    7. Each assert statement should have a message with the expected output and the observed output.
+    8. Do not test input longer than 1000 characters.
+    9. For regex functions, consider testing:
     - Pattern matching accuracy
     - Capturing groups
     - Non-capturing groups
@@ -58,9 +60,9 @@ def llm_generate_unit_tests(
     - Anchors (start, end, word boundaries)
     - Flags (e.g., re.IGNORECASE, re.MULTILINE, re.DOTALL)
     - Escape sequences
-    8. Do not write the actual function implementation or code to run the tests.
-    9. Write the name of the function you are testing as a comment at the top of the code block (do not write a place holder function).
-    10. Generate at least 10-15 diverse tests to ensure comprehensive coverage.
+    10. Do not write the actual function implementation or code to run the tests.
+    11. Write the name of the function you are testing as a comment at the top of the code block (do not write a place holder function).
+    12. Generate at least 10-15 diverse tests to ensure comprehensive coverage.
 
     Provide your response as a Python code block containing only the unit tests. \
     Ensure that the tests are varied and cover a wide range of scenarios to thoroughly validate the regex function.
