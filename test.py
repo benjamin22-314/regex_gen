@@ -10,7 +10,7 @@ def llm():
     return ChatOpenAI(temperature=0, model="gpt-4")
 
 
-def test_llm_find_bug_add_function_incorrect_function(llm, ):
+def test_llm_find_bug_add_function_incorrect_function(llm):
     query = "Add two numbers"
     function_code = ["def add(a, b):\n    return a - b"]
     unit_tests = {"test_add": ["def test_add():\n    assert add(2, 3) == 5"]}
@@ -31,7 +31,7 @@ def test_llm_find_bug_add_function_incorrect_function(llm, ):
     assert result["Likely Bug Location"] == "Function"
 
 
-def test_llm_find_bug_add_function_incorrect_unit_test(llm, ):
+def test_llm_find_bug_add_function_incorrect_unit_test(llm):
     query = "Add two numbers"
     function_code = ["def add(a, b):\n    return a + b"]
     unit_tests = {"test_add": ["def test_add():\n    assert add(2, 4) == 5"]}
