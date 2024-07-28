@@ -13,6 +13,8 @@ class FindFirstFailingUnitTestFunctionMessage:
         print("unit_test_name: " + self.unit_test_name)
         print("output: " + self.output + "\n")
 
+    def message_details(self) -> str:
+        return "unit test " + self.unit_test_name + " failed. " + self.output
 
 def find_first_failing_unit_test(
     function_code_with_unit_tests: FunctionCodeWithUnitTests,
